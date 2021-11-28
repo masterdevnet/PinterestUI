@@ -3,17 +3,16 @@ const headings = document.querySelectorAll('.heading .wrapper .text')
 
 function enterScreen(index) {
     const grid = grids[index]
-    const headin = headings[index]
+    const heading = headings[index]
     const gridColumns = grid.querySelectorAll('.column')
 
     grid.classList.add('active')
 
-    grid.gridColumns.forEach(element => {
+    gridColumns.forEach(element => {
         element.classList.remove('animate-before', 'animate-after')
     })
 
-    headings.classList.add('animate-before', 'animate-after')
-
+    heading.classList.remove('animate-before', 'animate-after')
 }
 
 function exitScreen(index, exitDelay) {
@@ -22,7 +21,7 @@ function exitScreen(index, exitDelay) {
     const gridColumns = grid.querySelectorAll('.column')
 
     gridColumns.forEach(element => {
-        element.classList.add('nimate-after')
+        element.classList.add('animate-after')
     })
 
     heading.classList.add('animate-after')
@@ -41,9 +40,9 @@ function setupAnimationCycle({ timePerScreen, exitDelay }) {
 
         enterScreen(currentIndex)
 
-        setTimeout(() => exitScreen(currentIndex, exitScreen), timePerScreen)
+        setTimeout(() => exitScreen(currentIndex, exitDelay), timePerScreen)
 
-        nextIndex = nextIndex >= grids.length - 1 ? 0 : nextIndex - 1
+        nextIndex = nextIndex >= grids.length - 1 ? 0 : nextIndex + 1
     }
 
     nextCycle()
@@ -52,6 +51,6 @@ function setupAnimationCycle({ timePerScreen, exitDelay }) {
 }
 
 setupAnimationCycle({
-    timePerScreen: 2000,
-    exitDelay: 200 * 7
+    timePerScreen: 2000, // ms
+    exitDelay: 200 * 7 // ms
 })
